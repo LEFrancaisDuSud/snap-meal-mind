@@ -19,7 +19,7 @@ export default function ErrorScreen({ message, onRetry, onChangePhoto }: Props) 
         >
           <XCircle size={42} className="text-destructive-foreground" />
         </motion.div>
-        <h2 className="text-foreground font-bold text-[22px]">Analysis failed</h2>
+        <h2 className="text-foreground font-bold text-[22px]">Analyse impossible</h2>
         <p className="text-muted-foreground text-sm mt-2 mb-6 break-words">{message}</p>
 
         <motion.button
@@ -27,14 +27,14 @@ export default function ErrorScreen({ message, onRetry, onChangePhoto }: Props) 
           onClick={onRetry}
           className="w-full bg-primary text-primary-foreground rounded-full py-4 font-bold"
         >
-          Try again
+          Réessayer
         </motion.button>
         <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={onChangePhoto}
-          className="w-full mt-2 border border-foreground/20 text-foreground rounded-full py-4 font-medium"
+          className="w-full mt-2 border border-border text-foreground rounded-full py-4 font-medium"
         >
-          Change photo
+          Changer de photo
         </motion.button>
       </div>
     </div>

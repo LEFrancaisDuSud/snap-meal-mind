@@ -1,65 +1,78 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* TrackCal design system — dark only */
+/* TrackCal — Material You inspired dark green palette */
 
 @layer base {
   :root {
-    /* All colors in HSL */
-    --background: 0 0% 4%;            /* #0A0A0A */
-    --foreground: 0 0% 100%;          /* #FFFFFF */
+    /* Surfaces (HSL of #101411, #181d19, #1c211d, #313632, #363a36, #0b0f0c) */
+    --background: 132 14% 7%;             /* #101411 */
+    --foreground: 80 10% 88%;             /* #e0e4dd  on-background */
 
-    --card: 0 0% 10%;                 /* #1A1A1A */
-    --card-foreground: 0 0% 100%;
+    --surface-low: 132 13% 10%;           /* #181d19 */
+    --surface: 132 8% 12%;                /* #1c211d  surface-container */
+    --surface-high: 130 4% 19%;           /* #313632 */
+    --surface-bright: 132 4% 22%;         /* #363a36 */
+    --surface-lowest: 135 14% 5%;         /* #0b0f0c */
 
-    --surface: 0 0% 15%;              /* #252525 */
-    --surface-foreground: 0 0% 100%;
+    --card: 132 8% 12%;                   /* surface-container */
+    --card-foreground: 80 10% 88%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 132 8% 12%;
+    --popover-foreground: 80 10% 88%;
 
-    --primary: 147 47% 33%;           /* #2E7D52 green */
-    --primary-foreground: 0 0% 100%;
+    /* Primary — green #88d7a5  /  primary-container #2e7d52  /  fixed #a4f4bf */
+    --primary: 142 51% 69%;
+    --primary-foreground: 153 100% 11%;   /* #00391f */
+    --primary-container: 147 47% 33%;     /* #2e7d52 */
+    --primary-fixed: 144 80% 80%;
+    --primary-glow: 142 51% 60%;
 
-    --accent: 21 73% 55%;             /* #E07B39 orange */
-    --accent-foreground: 0 0% 100%;
+    /* Secondary — orange #ffb68c */
+    --secondary: 22 100% 78%;
+    --secondary-foreground: 28 100% 6%;
+    --secondary-container: 28 100% 30%;   /* #974400 */
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 100%;
+    /* Tertiary — gold #ffba3a */
+    --tertiary: 41 100% 61%;
+    --tertiary-foreground: 33 100% 8%;
+    --tertiary-container: 41 100% 29%;    /* #946600 */
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;     /* #9A9A9A */
+    --muted: 132 4% 19%;
+    --muted-foreground: 110 6% 65%;       /* #bfc9bf  on-surface-variant */
 
-    --destructive: 0 71% 60%;         /* #E05252 */
-    --destructive-foreground: 0 0% 100%;
+    --accent: 41 100% 61%;                /* tertiary used as accent */
+    --accent-foreground: 33 100% 8%;
 
-    --border: 0 0% 16%;               /* #2A2A2A */
-    --input: 0 0% 16%;
-    --ring: 147 47% 33%;
+    --destructive: 6 100% 79%;            /* #ffb4ab error */
+    --destructive-foreground: 358 100% 22%; /* #690005 */
 
-    --macro-protein: 270 70% 65%;
-    --macro-carbs: 45 95% 60%;
-    --macro-fat: 0 71% 60%;
+    --border: 130 7% 27%;                 /* #3f4941  outline-variant */
+    --outline: 130 7% 56%;                /* #89938a */
+    --input: 130 7% 27%;
+    --ring: 142 51% 69%;
+
+    /* Macro colors mapped to design system */
+    --macro-protein: 142 51% 69%;         /* primary green */
+    --macro-carbs: 41 100% 61%;           /* tertiary gold */
+    --macro-fat: 22 100% 78%;             /* secondary peach */
 
     --radius: 1rem;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
   html, body, #root {
-    @apply bg-black;
+    @apply bg-background;
     height: 100%;
   }
   body {
     @apply text-foreground font-sans antialiased;
     font-family: 'Inter', system-ui, sans-serif;
-    background: #000;
     overflow-x: hidden;
   }
 }
@@ -92,12 +105,16 @@
 
   .corner-bracket {
     position: absolute;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-color: hsl(var(--primary));
     border-style: solid;
     border-width: 0;
-    filter: drop-shadow(0 0 8px hsl(var(--primary) / 0.6));
+    filter: drop-shadow(0 0 10px hsl(var(--primary) / 0.7));
+  }
+
+  .glow-primary {
+    box-shadow: 0 8px 28px -6px hsl(var(--primary) / 0.5);
   }
 }
 
@@ -105,12 +122,16 @@
   0% { transform: scale(1); opacity: 1; }
   100% { transform: scale(1.6); opacity: 0; }
 }
-.pulse-ring {
-  animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
+.pulse-ring { animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
 @keyframes corner-glow {
-  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 4px hsl(var(--primary) / 0.4)); }
-  50% { opacity: 1; filter: drop-shadow(0 0 12px hsl(var(--primary) / 0.9)); }
+  0%, 100% { opacity: 0.7; filter: drop-shadow(0 0 4px hsl(var(--primary) / 0.5)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 14px hsl(var(--primary) / 0.95)); }
 }
 .corner-glow { animation: corner-glow 2s ease-in-out infinite; }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in 0.35s ease-out both; }

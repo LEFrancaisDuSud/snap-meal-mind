@@ -14,7 +14,165 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      meals: {
+        Row: {
+          components: Json
+          created_at: string
+          dish_name: string
+          health_score: number | null
+          health_tip: string | null
+          id: string
+          image_url: string | null
+          log_date: string
+          logged_at: string
+          meal_type: string
+          portion_multiplier: number
+          total_calories: number
+          total_carbs_g: number
+          total_fat_g: number
+          total_protein_g: number
+          user_id: string
+        }
+        Insert: {
+          components?: Json
+          created_at?: string
+          dish_name: string
+          health_score?: number | null
+          health_tip?: string | null
+          id?: string
+          image_url?: string | null
+          log_date?: string
+          logged_at?: string
+          meal_type: string
+          portion_multiplier?: number
+          total_calories?: number
+          total_carbs_g?: number
+          total_fat_g?: number
+          total_protein_g?: number
+          user_id: string
+        }
+        Update: {
+          components?: Json
+          created_at?: string
+          dish_name?: string
+          health_score?: number | null
+          health_tip?: string | null
+          id?: string
+          image_url?: string | null
+          log_date?: string
+          logged_at?: string
+          meal_type?: string
+          portion_multiplier?: number
+          total_calories?: number
+          total_carbs_g?: number
+          total_fat_g?: number
+          total_protein_g?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          activity_level: string | null
+          age: number | null
+          avatar_emoji: string | null
+          best_streak: number
+          created_at: string
+          current_streak: number
+          daily_calories: number | null
+          daily_carbs_g: number | null
+          daily_fat_g: number | null
+          daily_protein_g: number | null
+          display_name: string | null
+          goal: string | null
+          height_cm: number | null
+          id: string
+          last_log_date: string | null
+          level: number
+          onboarding_completed: boolean
+          sex: string | null
+          updated_at: string
+          user_id: string
+          weight_kg: number | null
+          xp: number
+        }
+        Insert: {
+          activity_level?: string | null
+          age?: number | null
+          avatar_emoji?: string | null
+          best_streak?: number
+          created_at?: string
+          current_streak?: number
+          daily_calories?: number | null
+          daily_carbs_g?: number | null
+          daily_fat_g?: number | null
+          daily_protein_g?: number | null
+          display_name?: string | null
+          goal?: string | null
+          height_cm?: number | null
+          id?: string
+          last_log_date?: string | null
+          level?: number
+          onboarding_completed?: boolean
+          sex?: string | null
+          updated_at?: string
+          user_id: string
+          weight_kg?: number | null
+          xp?: number
+        }
+        Update: {
+          activity_level?: string | null
+          age?: number | null
+          avatar_emoji?: string | null
+          best_streak?: number
+          created_at?: string
+          current_streak?: number
+          daily_calories?: number | null
+          daily_carbs_g?: number | null
+          daily_fat_g?: number | null
+          daily_protein_g?: number | null
+          display_name?: string | null
+          goal?: string | null
+          height_cm?: number | null
+          id?: string
+          last_log_date?: string | null
+          level?: number
+          onboarding_completed?: boolean
+          sex?: string | null
+          updated_at?: string
+          user_id?: string
+          weight_kg?: number | null
+          xp?: number
+        }
+        Relationships: []
+      }
+      user_badges: {
+        Row: {
+          badge_emoji: string
+          badge_key: string
+          badge_name: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          badge_emoji: string
+          badge_key: string
+          badge_name: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          badge_emoji?: string
+          badge_key?: string
+          badge_name?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

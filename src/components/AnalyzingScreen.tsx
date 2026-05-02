@@ -7,9 +7,9 @@ interface Props {
 }
 
 const TAGS = [
-  "🔍 Detecting ingredients...",
-  "⚡ Calculating calories...",
-  "✅ Almost done!",
+  "🔍 Détection des ingrédients...",
+  "⚡ Calcul des calories...",
+  "✅ Presque terminé !",
 ];
 
 export default function AnalyzingScreen({ imageBase64 }: Props) {
@@ -41,27 +41,17 @@ export default function AnalyzingScreen({ imageBase64 }: Props) {
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.3 }}
-          className="bg-card border border-border rounded-2xl p-8 w-full max-w-sm shadow-2xl"
+          className="bg-card border border-border rounded-3xl p-8 w-full max-w-sm shadow-2xl"
         >
           <div className="flex flex-col items-center">
             <div className="relative mb-5 w-20 h-20 flex items-center justify-center">
-              <span
-                className="absolute inset-0 rounded-full pulse-ring"
-                style={{ background: "hsl(var(--primary) / 0.35)" }}
-              />
-              <span
-                className="absolute inset-0 rounded-full"
-                style={{ background: "hsl(var(--primary) / 0.18)" }}
-              />
+              <span className="absolute inset-0 rounded-full pulse-ring" style={{ background: "hsl(var(--primary) / 0.35)" }} />
+              <span className="absolute inset-0 rounded-full" style={{ background: "hsl(var(--primary) / 0.18)" }} />
               <Utensils size={36} className="relative text-primary" />
             </div>
 
-            <h2 className="text-foreground font-bold text-xl text-center">
-              Analyzing your meal...
-            </h2>
-            <p className="text-muted-foreground text-sm mt-1 text-center">
-              AI is identifying your food
-            </p>
+            <h2 className="text-foreground font-bold text-xl text-center">Analyse de ton repas...</h2>
+            <p className="text-muted-foreground text-sm mt-1 text-center">L'IA identifie tes aliments</p>
 
             <div className="w-full mt-6 h-2 bg-surface rounded-full overflow-hidden">
               <motion.div
