@@ -237,6 +237,16 @@ export default function JournalPage() {
           );
         })}
       </div>
+
+      <AnimatePresence>
+        {editing && (
+          <EditPortionModal
+            meal={editing}
+            onClose={() => setEditing(null)}
+            onSave={async (m) => { await handleSavePortion(editing, m); }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -255,16 +265,6 @@ function MacroBarLabel({ label, value, target, color }: { label: string; value: 
           transition={{ duration: 0.9 }}
         />
       </div>
-
-      <AnimatePresence>
-        {editing && (
-          <EditPortionModal
-            meal={editing}
-            onClose={() => setEditing(null)}
-            onSave={async (m) => { await handleSavePortion(editing, m); }}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }
