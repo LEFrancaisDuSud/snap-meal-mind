@@ -1,10 +1,10 @@
-import { Home, BarChart3, ScanLine, BookOpen, User } from "lucide-react";
+import { Home, History, ScanLine, BookOpen, User } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const ITEMS = [
   { to: "/", icon: Home, label: "HOME" },
-  { to: "/stats", icon: BarChart3, label: "STATS" },
+  { to: "/historique", icon: History, label: "HISTO" },
   { to: "/scanner", icon: ScanLine, label: "SCANNER", center: true },
   { to: "/journal", icon: BookOpen, label: "JOURNAL" },
   { to: "/profil", icon: User, label: "PROFIL" },
