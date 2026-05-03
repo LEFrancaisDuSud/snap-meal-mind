@@ -256,7 +256,7 @@ export default function HistoriquePage() {
           <EditPortionModal
             meal={editing}
             onClose={() => setEditing(null)}
-            onSave={(m) => handleSavePortion(editing, m)}
+            onSave={async (m) => { await handleSavePortion(editing, m); }}
           />
         )}
       </AnimatePresence>
