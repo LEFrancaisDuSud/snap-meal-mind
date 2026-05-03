@@ -204,14 +204,23 @@ export default function JournalPage() {
                       )}
                       {list.map((m) => (
                         <div key={`del-${m.id}`} className="flex items-center justify-between text-xs text-muted-foreground pt-1">
-                          <span>📷 {m.dish_name}</span>
-                          <button
-                            onClick={() => handleDelete(m.id)}
-                            className="p-1 hover:text-destructive"
-                            aria-label="Supprimer"
-                          >
-                            <Trash2 size={14} />
-                          </button>
+                          <span className="truncate">📷 {m.dish_name} • {Number(m.portion_multiplier)}x</span>
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button
+                              onClick={() => setEditing(m)}
+                              className="p-1 hover:text-primary"
+                              aria-label="Modifier portion"
+                            >
+                              <Pencil size={14} />
+                            </button>
+                            <button
+                              onClick={() => handleDelete(m.id)}
+                              className="p-1 hover:text-destructive"
+                              aria-label="Supprimer"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
                         </div>
                       ))}
                       <button
@@ -246,6 +255,16 @@ function MacroBarLabel({ label, value, target, color }: { label: string; value: 
           transition={{ duration: 0.9 }}
         />
       </div>
+
+      <AnimatePresence>
+        {editing && (
+          <EditPortionModal
+            meal={editing}
+            onClose={() => setEditing(null)}
+            onSave={async (m) => { await handleSavePortion(editing, m); }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
