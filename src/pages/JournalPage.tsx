@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, Bell, Plus, Rocket, Trash2 } from "lucide-react";
+import { ChevronDown, Menu, Bell, Plus, Rocket, Trash2, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,6 +9,8 @@ import { useMeals, totalsFromMeals, groupMealsByType, MEAL_TYPES } from "@/hooks
 import { isoOf, weekAround, shortDay, dayNumber } from "@/lib/dates";
 import ProgressRing from "@/components/ProgressRing";
 import MealTypeIcon, { mealTypeMeta } from "@/components/MealTypeIcon";
+import DayAIInsight from "@/components/DayAIInsight";
+import EditPortionModal from "@/components/EditPortionModal";
 import type { MealRow, MealType } from "@/types/nutrition";
 
 export default function JournalPage() {
@@ -31,6 +33,7 @@ export default function JournalPage() {
   const challengePct = Math.min(100, Math.round((totals.p / proteinTarget) * 100));
 
   const [openType, setOpenType] = useState<MealType | null>("Petit-déjeuner");
+  const [editing, setEditing] = useState<MealRow | null>(null);
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("meals").delete().eq("id", id);
@@ -39,6 +42,24 @@ export default function JournalPage() {
       toast.success("Repas supprimé");
       refresh();
     }
+  };
+
+  const handleSavePortion = async (m: MealRow, newMult: number) => {
+    const ratio = newMult / Number(m.portion_multiplier || 1);
+    const { error } = await supabase
+      .from("meals")
+      .update({
+        portion_multiplier: newMult,
+        total_calories: Math.round(Number(m.total_calories) * ratio),
+        total_protein_g: Math.round(Number(m.total_protein_g) * ratio * 10) / 10,
+        total_carbs_g: Math.round(Number(m.total_carbs_g) * ratio * 10) / 10,
+        total_fat_g: Math.round(Number(m.total_fat_g) * ratio * 10) / 10,
+      })
+      .eq("id", m.id);
+    if (error) return toast.error(error.message);
+    toast.success("Portion mise à jour");
+    setEditing(null);
+    refresh();
   };
 
   return (
