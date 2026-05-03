@@ -8,6 +8,7 @@ import AuthGate from "@/components/AuthGate";
 import AuthPage from "./pages/AuthPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import HomePage from "./pages/HomePage";
+import HistoriquePage from "./pages/HistoriquePage";
 import StatsPage from "./pages/StatsPage";
 import ScannerPage from "./pages/ScannerPage";
 import JournalPage from "./pages/JournalPage";
@@ -28,6 +29,7 @@ const App = () => (
 
           <Route element={<AppShell />}>
             <Route path="/" element={<AuthGate><HomePage /></AuthGate>} />
+            <Route path="/historique" element={<AuthGate><HistoriquePage /></AuthGate>} />
             <Route path="/stats" element={<AuthGate><StatsPage /></AuthGate>} />
             <Route path="/journal" element={<AuthGate><JournalPage /></AuthGate>} />
             <Route path="/profil" element={<AuthGate><ProfilePage /></AuthGate>} />
