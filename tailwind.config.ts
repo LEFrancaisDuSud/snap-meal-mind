@@ -2,47 +2,31 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
-  prefix: "",
+  content: ["./src/**/*.{ts,tsx}"],
   theme: {
-    container: { center: true, padding: "1rem", screens: { "2xl": "1400px" } },
+    container: { center: true, padding: "1rem" },
     extend: {
-      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        outline: "hsl(var(--outline))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        surface: {
-          DEFAULT: "hsl(var(--surface))",
-          low: "hsl(var(--surface-low))",
-          high: "hsl(var(--surface-high))",
-          bright: "hsl(var(--surface-bright))",
-          lowest: "hsl(var(--surface-lowest))",
-        },
+        surface: "hsl(var(--surface))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          container: "hsl(var(--primary-container))",
-          fixed: "hsl(var(--primary-fixed))",
-          glow: "hsl(var(--primary-glow))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
-          container: "hsl(var(--secondary-container))",
-        },
-        tertiary: {
-          DEFAULT: "hsl(var(--tertiary))",
-          foreground: "hsl(var(--tertiary-foreground))",
-          container: "hsl(var(--tertiary-container))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        warning: "hsl(var(--warning))",
+        gold: "hsl(var(--gold))",
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
@@ -58,17 +42,16 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        macro: {
-          protein: "hsl(var(--macro-protein))",
-          carbs: "hsl(var(--macro-carbs))",
-          fat: "hsl(var(--macro-fat))",
+          elevated: "hsl(var(--card-elevated))",
         },
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 4px)",
-        sm: "calc(var(--radius) - 8px)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
