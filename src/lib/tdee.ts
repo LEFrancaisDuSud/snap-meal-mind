@@ -1,80 +1,57 @@
-// TDEE / macro / gamification helpers
-import type { Profile } from "@/types/nutrition";
+import type { ActivityLevel, Gender, Goal } from "@/types/db";
 
-const ACTIVITY_FACTOR: Record<NonNullable<Profile["activity_level"]>, number> = {
-  sedentary: 1.2,
-  light: 1.375,
-  moderate: 1.55,
-  active: 1.725,
-  very_active: 1.9,
+export const ACTIVITY_MULT: Record<ActivityLevel, number> = {
+  sedentary: 1.2, light: 1.375, moderate: 1.55, active: 1.725, athlete: 1.9,
 };
 
-export function computeTDEE(input: {
+export interface PlanInput {
   age: number;
-  sex: "male" | "female";
-  height_cm: number;
+  gender: Gender;
   weight_kg: number;
-  activity_level: NonNullable<Profile["activity_level"]>;
-  goal: "lose" | "maintain" | "gain";
-}) {
-  // Mifflin-St Jeor
-  const bmr =
-    input.sex === "male"
-      ? 10 * input.weight_kg + 6.25 * input.height_cm - 5 * input.age + 5
-      : 10 * input.weight_kg + 6.25 * input.height_cm - 5 * input.age - 161;
-
-  let calories = Math.round(bmr * ACTIVITY_FACTOR[input.activity_level]);
-  if (input.goal === "lose") calories -= 400;
-  if (input.goal === "gain") calories += 300;
-  calories = Math.max(1200, Math.round(calories / 10) * 10);
-
-  // Macro split: 30% protein, 40% carbs, 30% fat (lose) ; 25/50/25 maintain ; 30/45/25 gain
-  const split =
-    input.goal === "lose"
-      ? { p: 0.3, c: 0.4, f: 0.3 }
-      : input.goal === "gain"
-      ? { p: 0.3, c: 0.45, f: 0.25 }
-      : { p: 0.25, c: 0.5, f: 0.25 };
-
-  const protein = Math.round((calories * split.p) / 4);
-  const carbs = Math.round((calories * split.c) / 4);
-  const fat = Math.round((calories * split.f) / 9);
-
-  return { calories, protein, carbs, fat };
+  height_cm: number;
+  target_weight_kg: number;
+  activity: ActivityLevel;
+  goal: Goal;
 }
 
-export function xpForLevel(level: number) {
-  // Level n requires n * 300 cumulative XP
-  return level * 300;
+export interface NutritionPlan {
+  daily_kcal: number;
+  protein_g: number;
+  carbs_g: number;
+  fat_g: number;
+  weeks_to_goal: number;
+  tdee: number;
 }
-export function levelFromXP(xp: number) {
-  let lvl = 1;
-  while (xpForLevel(lvl) <= xp) lvl++;
-  return lvl;
-}
-export function xpProgress(xp: number) {
-  const lvl = levelFromXP(xp);
-  const prev = lvl > 1 ? xpForLevel(lvl - 1) : 0;
-  const next = xpForLevel(lvl);
+
+export function computePlan(i: PlanInput): NutritionPlan {
+  const offset = i.gender === "male" ? 5 : i.gender === "female" ? -161 : -78;
+  const bmr = 10 * i.weight_kg + 6.25 * i.height_cm - 5 * i.age + offset;
+  const tdee = bmr * ACTIVITY_MULT[i.activity];
+
+  let kcal = tdee;
+  if (i.goal === "lose") kcal = tdee - 400;
+  else if (i.goal === "gain") kcal = tdee + 300;
+
+  const protein_g = Math.round(i.weight_kg * 2.0);
+  const protein_kcal = protein_g * 4;
+  const remaining = Math.max(0, kcal - protein_kcal);
+  const carbs_g = Math.round((remaining * 0.45) / 4);
+  const fat_g = Math.round((remaining * 0.30) / 9);
+  const weeks = Math.max(1, Math.ceil(Math.abs(i.weight_kg - i.target_weight_kg) / 0.5));
+
   return {
-    level: lvl,
-    nextLevelAt: next,
-    inLevel: xp - prev,
-    levelSpan: next - prev,
-    pct: Math.min(100, Math.round(((xp - prev) / (next - prev)) * 100)),
+    daily_kcal: Math.round(kcal),
+    protein_g, carbs_g, fat_g,
+    weeks_to_goal: weeks,
+    tdee: Math.round(tdee),
   };
 }
 
-export const ACTIVITY_LABELS: Record<NonNullable<Profile["activity_level"]>, string> = {
-  sedentary: "Sédentaire",
-  light: "Légère",
-  moderate: "Modérée",
-  active: "Active",
-  very_active: "Très active",
-};
-
-export const GOAL_LABELS: Record<NonNullable<Profile["goal"]>, string> = {
-  lose: "Perdre du poids",
-  maintain: "Maintenir",
-  gain: "Prendre de la masse",
-};
+export function greeting(d: Date = new Date()): string {
+  const h = d.getHours();
+  if (h < 5) return "Good night";
+  if (h < 12) return "Good morning";
+  if (h < 18) return "Good afternoon";
+  if (h < 22) return "Good evening";
+  return "Good night";
+}
